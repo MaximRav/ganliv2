@@ -8,7 +8,6 @@ const connect = mongoose.connect("mongodb+srv://Ganli:Ganli123@ganli.7my2zmp.mon
     pass: "Ganli123", // replace "your_password" with your actual password
 });
 
-
 connect
     .then(() => {
         console.log("Database connected successfully");

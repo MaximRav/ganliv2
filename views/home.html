@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/public/home.css" />
-  <link rel="stylesheet" href="/public/navibar.css" />
+  <link rel="stylesheet" href="/navibar.css" />
+  <link rel="stylesheet" href="/home.css" />
 
   <title>Home Page</title>
 </head>
@@ -14,14 +14,12 @@
   <header>
     <bar>
       <ul>
-        <a href="/views/home.html">
-          <li class="logo">גן-לי</li>
-        </a>
-        <li><a href="/views/home.html">בית</a></li>
+        <li class="logo"><a href="/">גן-לי</a></li>
+        <li><a href="/">בית</a></li>
         <li><a href="aboutPage.html">אודות</a></li>
         <li><a href="GardensList.html">גנים</a></li>
         <li>
-          <a href="/src/index.js" class="login" onclick="openLoginPopup()">התחברות</a>
+          <a href="/login" class="login">התחברות</a>
         </li>
       </ul>
     </bar>
@@ -34,12 +32,7 @@
   <img src="https://github.com/Dianka157/Ganli_Project/blob/main/general/homephoto.png?raw=true" alt="Homepage Image"
     class="homeImg" />
 
-  <!-- Script to handle login redirection -->
-  <script>
-    function openLoginPopup() {
-      window.location.href = "/login";
-    }
-  </script>
+
 </body>
 
 </html>

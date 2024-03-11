@@ -7,10 +7,8 @@
 
 body {
   height: 100vh;
-  display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #ffe3a2;
 }
 
 h1 {
@@ -88,13 +86,15 @@ p {
 .input-group {
   display: flex;
   align-items: center;
-  margin-right: 10px; /* Add margin-right for spacing */
+  margin-right: 10px;
+  /* Add margin-right for spacing */
 }
 
 input[type="button"] {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #ffa500; /* Orange color */
+  background-color: #ffa500;
+  /* Orange color */
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -113,4 +113,65 @@ input[type="button"].selected {
   background-color: #fff0d9;
   color: black;
   border: 2px solid #ffa500;
+}
+
+bar {
+  text-align: right;
+}
+
+ul {
+  background-color: #FFE3A2;
+}
+
+li {
+  background-color: #FFE3A2;
+}
+
+li a {
+  background-color: #FFE3A2;
+}
+
+.logo {
+  font-family: "Secular One";
+  padding-right: 0;
+  font-weight: bold;
+  font-size: 64px;
+  color: #ffa800;
+}
+
+bar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+bar li {
+  padding-right: 50px;
+  display: inline;
+}
+
+bar a {
+  text-decoration: none;
+  color: black;
+  font-weight: lighter;
+  font-size: 24px;
+}
+
+bar a:hover {
+  color: #b85533;
+}
+
+.login {
+  padding-top: 40px;
+  font-family: "Varela Round";
+  padding-left: 50px;
+  float: left;
+  margin: 0;
+  color: #ffa800;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.login:hover {
+  color: #b85533;
 }

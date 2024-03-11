@@ -1,0 +1,52 @@
+.topOfPage {
+    position: relative;
+    display: flex;
+    text-align: right;
+    margin-left: 50px;
+}
+
+.topOfPage h1 {
+    color: #FFA800;
+    padding-left: 200px;
+    font-size: 72px;
+    font-family: "Secular One";
+    margin: auto;
+}
+
+.topOfPage img {
+    width: auto;
+}
+
+.topOfPage h2 {
+    font-size: 24px;
+    font-family: "Varela Round";
+    color: #6C3A36;
+}
+
+.container {
+    font-size: 20px;
+    top: 8px;
+}
+
+.textField {
+    margin-right: 100px;
+}
+
+.BotOfPage {
+    position: relative;
+    display: flex;
+    text-align: center;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.BotOfPage h3 {
+    font-size: 24px;
+    color: #6C3A36;
+    font-family: "Secular One";
+}
+
+.BotOfPage p {
+    font-size: 20px;
+    font-family: "Varela Round";
+}
