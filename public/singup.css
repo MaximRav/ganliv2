@@ -1,0 +1,116 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #fff0d9;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffe3a2;
+}
+
+h1 {
+  text-align: center;
+  font-size: 64px;
+  font-family: "Secular One";
+  color: #ffa800;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 32px;
+  font-family: "Varela Round";
+  margin: auto;
+  padding-bottom: 10px;
+  color: #6c3a36;
+}
+
+p {
+  font-size: 20px;
+  text-align: center;
+  color: #6c3a36;
+  padding-bottom: 25px;
+}
+
+.form-container {
+  width: 616px;
+  height: auto;
+  margin: 0 auto;
+  padding: 20px;
+  border: 4px solid #ffa800;
+  border-radius: 5px;
+  text-align-last: center;
+  text-align: -webkit-center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 60%;
+  padding: 8px;
+  font-size: 16px;
+  border: 2px solid #ffa800;
+  border-radius: 3px;
+  font-size: 20px;
+  font-family: "Varela Round";
+}
+
+.submit_btn {
+  display: block;
+  width: 60%;
+  padding: 10px;
+  background-color: #ffa800;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.form-role {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  margin-right: 10px; /* Add margin-right for spacing */
+}
+
+input[type="button"] {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #ffa500; /* Orange color */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 20px;
+  font-family: "Varela Round";
+  margin-right: 10px;
+}
+
+input[type="button"]:hover {
+  background-color: #ff8c00;
+}
+
+input[type="button"].selected {
+  background-color: #fff0d9;
+  color: black;
+  border: 2px solid #ffa500;
+}

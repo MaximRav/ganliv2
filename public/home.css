@@ -1,0 +1,34 @@
+.slogan {
+  font-size: 3vw;
+  color: #b85533;
+  text-align: right;
+  padding-right: 8vw;
+  padding-top: 0vw;
+  font-weight: lighter;
+}
+
+.start-button {
+  position: relative;
+  top: -2.9vw;
+  margin-left: 80.8%;
+  background-color: #ffefcb;
+  color: #ffa800;
+  padding: 0.7vw 1vw;
+  font-size: 1vw;
+  border: 0.2vw solid #ffa800;
+  border-radius: 2vw;
+  cursor: pointer;
+}
+
+.start-button:hover {
+  color: white;
+  background-color: #ffa800;
+}
+
+.homeImg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60%;
+  z-index: -1;
+}

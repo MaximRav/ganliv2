@@ -1,0 +1,60 @@
+body {
+  background-color: #ffefcb;
+  margin: 0;
+  padding: 0;
+  font-family: Varela Round, Secular One;
+}
+
+header {
+  background-color: #ffe3a2;
+  padding: 0;
+}
+
+bar {
+  text-align: right;
+}
+
+.logo {
+  font-family: "Secular One";
+  padding-right: 0;
+  font-weight: bold;
+  font-size: 64px;
+  color: #ffa800;
+}
+
+bar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+bar li {
+  padding-right: 50px;
+  display: inline;
+}
+
+bar a {
+  text-decoration: none;
+  color: black;
+  font-weight: lighter;
+  font-size: 24px;
+}
+
+bar a:hover {
+  color: #b85533;
+}
+
+.login {
+  padding-top: 40px;
+  font-family: "Varela Round";
+  padding-left: 50px;
+  float: left;
+  margin: 0;
+  color: #ffa800;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.login:hover {
+  color: #b85533;
+}

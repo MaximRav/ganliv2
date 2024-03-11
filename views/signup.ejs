@@ -1,0 +1,83 @@
+<!-- signup.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SignUp</title>
+
+    <link rel="stylesheet" href="/singup.css" />
+    <link rel="stylesheet" href="/singup.js" />
+  </head>
+
+  <body>
+    <div class="form-container">
+      <h1>ברוכים הבאים</h1>
+      <h2>צור חשבון</h2>
+      <form action="/signup" method="post">
+        <div class="form-group">
+          <label for="fullname"></label>
+          <input
+            type="text"
+            id="fullname"
+            name="fullname"
+            placeholder="הכנס את שמך המלא"
+            required
+            autocomplete="off"
+          />
+        </div>
+        <div class="form-group">
+          <label for="email"></label>
+          <input
+            type="email"
+            id="email"
+            name="useremail"
+            placeholder="הכנס את המייל שלך"
+            required
+            autocomplete="off"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password"></label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="הכנס סיסמא"
+            required
+          />
+        </div>
+        <div class="form-role">
+          <label for="role"></label>
+          <input type="button" id="parent" name="role" value="הורה" required />
+          <label for="parent"></label><br />
+          <input type="button" id="teacher" name="role" value="גננת" required />
+          <label for="teacher"></label><br />
+        </div>
+
+        <button type="submit" class="submit_btn">צור חשבון</button>
+      </form>
+    </div>
+    <script>
+      document.querySelectorAll('input[type="button"]').forEach((button) => {
+        button.addEventListener("click", (event) => {
+          const selectedButton = event.target;
+
+          if (selectedButton.classList.contains("selected")) {
+            selectedButton.classList.remove("selected");
+            document.getElementById("selectedRole").textContent = "";
+          } else {
+            document.querySelectorAll('input[type="button"]').forEach((btn) => {
+              btn.classList.remove("selected");
+            });
+
+            selectedButton.classList.add("selected");
+            document.getElementById("selectedRole").textContent =
+              selectedButton.value;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
