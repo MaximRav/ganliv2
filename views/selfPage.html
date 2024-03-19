@@ -5,13 +5,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>אזור אישי</title>
-    <!-- Add your CSS and other head elements -->
+    <link rel="stylesheet" href="/navibar.css" />
+    <link rel="stylesheet" href="/selfPage.css" />
 </head>
 
 <body>
-    <!-- Add your HTML for the personal area page -->
-    <h1>אזור אישי</h1>
-    <!-- ... -->
+    <header>
+        <bar>
+            <ul>
+                <li class="logo"><a href="/HomeLog.html">גן-לי</a></li>
+                <li><a href="/HomeLog.html">בית</a></li>
+                <li><a href="/aboutPage.html">אודות</a></li>
+                <li><a href="/ganimlist.html">גנים</a></li>
+                <li><a href="/selfPage.html">אזור אישי</a></li>
+                <li>
+                    <a href="/logout" class="login" id="logoutLink">התנתקות</a>
+                </li>
+            </ul>
+        </bar>
+    </header>
+
+    <div class="container">
+        <div class="profile-info">
+            <img src="https://via.placeholder.com/150" alt="Profile Picture" id="profilePicture">
+            <form id="profileForm">
+                <div class="form-group">
+                    <h3>שם מלא:</h3>
+                    <span id="fullname"></span>
+                </div>
+                <div class="form-group">
+                    <h3>מייל</h3>
+                    <span id="email"></span>
+                </div>
+                <div class="form-group">
+                    <h3>מספר פלאפון</h3>
+                    <span id="phone"></span>
+                </div>
+
+                <button type="button" class="edit-btn" id="editProfileBtn">ערוך</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get the profile form and input fields
+        const profileForm = document.getElementById('profileForm');
+        const fullnameSpan = document.getElementById('fullname');
+        const emailSpan = document.getElementById('email');
+        const phoneSpan = document.getElementById('phone');
+        const profilePicture = document.getElementById('profilePicture');
+        const editProfileBtn = document.getElementById('editProfileBtn');
+
+        // Fetch the user's profile data from the server
+        fetch('/profile')
+            .then(response => response.json())
+            .then(data => {
+                // Populate the form with the user's profile data
+                fullnameSpan.textContent = data.fullname;
+                emailSpan.textContent = data.email;
+                phoneSpan.textContent = data.phone;
+                profilePicture.src = data.profilePicture;
+            })
+            .catch(error => {
+                console.error('Error fetching profile data:', error);
+                alert('Failed to fetch profile data');
+            });
+
+        // Handle edit profile button click
+        editProfileBtn.addEventListener('click', () => {
+            // Replace the spans with input fields for editing
+            fullnameSpan.innerHTML = `<input type="text" id="fullnameInput" value="${fullnameSpan.textContent}">`;
+            emailSpan.innerHTML = `<input type="email" id="emailInput" value="${emailSpan.textContent}">`;
+            phoneSpan.innerHTML = `<input type="tel" id="phoneInput" value="${phoneSpan.textContent}">`;
+
+            roleSpan.innerHTML = `<input type="text" id="roleInput" value="${roleSpan.textContent}">`;
+
+            // Change the edit button to save button
+            editProfileBtn.textContent = 'שמור';
+            editProfileBtn.removeEventListener('click', arguments.callee);
+            editProfileBtn.addEventListener('click', saveProfile);
+        });
+
+        // Handle form submission
+        function saveProfile() {
+            // Get the updated profile data from the form
+            const updatedProfileData = {
+                fullname: document.getElementById('fullnameInput').value,
+                email: document.getElementById('emailInput').value,
+                phone: document.getElementById('phoneInput').value,
+                role: document.getElementById('roleInput').value
+            };
+
+            // Send the updated profile data to the server
+            fetch('/profile', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedProfileData)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Update the spans with the new values
+                        fullnameSpan.textContent = updatedProfileData.fullname;
+                        emailSpan.textContent = updatedProfileData.email;
+                        phoneSpan.textContent = updatedProfileData.phone;
+                        roleSpan.textContent = updatedProfileData.role;
+
+                        // Change the save button back to edit button
+                        editProfileBtn.textContent = 'ערוך';
+                        editProfileBtn.removeEventListener('click', saveProfile);
+                        editProfileBtn.addEventListener('click', function () {
+                            // Replace the spans with input fields for editing
+                            fullnameSpan.innerHTML = `<input type="text" id="fullnameInput" value="${fullnameSpan.textContent}">`;
+                            emailSpan.innerHTML = `<input type="email" id="emailInput" value="${emailSpan.textContent}">`;
+                            phoneSpan.innerHTML = `<input type="tel" id="phoneInput" value="${phoneSpan.textContent}">`;
+                            roleSpan.innerHTML = `<input type="text" id="roleInput" value="${roleSpan.textContent}">`;
+
+                            // Change the edit button to save button
+                            editProfileBtn.textContent = 'שמור';
+                            editProfileBtn.removeEventListener('click', arguments.callee);
+                            editProfileBtn.addEventListener('click', saveProfile);
+                        });
+
+                        alert('Profile updated successfully');
+                    } else {
+                        console.error('Failed to update profile');
+                        alert('Failed to update profile');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating profile:', error);
+                    alert('Failed to update profile');
+                });
+        }
+    </script>
 </body>
 
 </html>

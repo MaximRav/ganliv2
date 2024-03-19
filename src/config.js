@@ -33,7 +33,12 @@ const LoginSchema = new mongoose.Schema({
         type: String,
         enum: ['הורה', 'גננת', 'admin'],
         required: true
+    },
+    phone: {
+        type: String,
+        required: true
     }
+
 });
 
 const collection = mongoose.model("users", LoginSchema);

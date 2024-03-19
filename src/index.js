@@ -31,6 +31,16 @@ app.get('/isLoggedIn', (req, res) => {
     res.json({ isLoggedIn });
 });
 
+app.get('/home', (req, res) => {
+    const isLoggedIn = req.session.isLoggedIn || false;
+
+    if (isLoggedIn) {
+        res.redirect('/HomeLog.html');
+    } else {
+        res.redirect('/home.html');
+    }
+});
+
 app.get('/login', (req, res) => {
     // Check if the user is already logged in
     const isLoggedIn = false; // Placeholder, replace with your actual logic
@@ -77,6 +87,14 @@ app.get('/HomeLog.html', (req, res) => {
     }
 });
 
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error during logout:', err);
+        }
+        res.redirect('/home.html');
+    });
+});
 
 app.post('/signup', async (req, res) => {
     const data = {
@@ -119,6 +137,7 @@ app.post('/login', async (req, res) => {
 
         if (isPasswordMatch) {
             req.session.isLoggedIn = true;
+            req.session.userEmail = check.email; // Store the user's email in the session
             return res.redirect('/HomeLog.html');
         } else {
             return res.send('<script>alert("סיסמא לא נכונה"); window.location.href = "/";</script>');
@@ -126,6 +145,36 @@ app.post('/login', async (req, res) => {
     } catch (error) {
         console.error('Error during login:', error);
         return res.status(500).send('Internal Server Error');
+    }
+});
+
+app.get('/profile', async (req, res) => {
+    try {
+        // Check if the user is logged in
+        if (!req.session.isLoggedIn) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        // Fetch the user's profile data from the database
+        const user = await collection.findOne({ email: req.session.userEmail });
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Extract the relevant profile data from the user object
+        const profileData = {
+            fullname: user.fullname,
+            email: user.email,
+            phone: user.phone || '', // Replace with the appropriate field name for phone number
+            role: user.role,
+            profilePicture: user.profilePicture || 'https://via.placeholder.com/150' // Replace with the appropriate field name for profile picture
+        };
+
+        res.json(profileData);
+    } catch (error) {
+        console.error('Error fetching profile data:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
