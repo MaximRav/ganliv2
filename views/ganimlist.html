@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="navibar.css" />
+  <link rel="stylesheet" href="ganimlist.css" />
+
+  <title>Ganim list</title>
+</head>
+
+<body>
+  <header>
+    <bar>
+      <ul>
+        <a href="/home.html">
+          <li class="logo">גן-לי</li>
+        </a>
+        <li><a href="/home.html">בית</a></li>
+        <li><a href="aboutPage.html">אודות</a></li>
+        <li><a href="ganimlist.html">גנים</a></li>
+        <li>
+          <a href="#" class="login" onclick="openLoginPopup()">התנתקות</a>
+        </li>
+      </ul>
+    </bar>
+  </header>
+
+  <h1 class="ganListLogo">צעד קטן לאדם וצעד ענק לאנושות</h1>
+
+  <table class="ganimList">
+    <tr class="ganimHader">
+      <th>דירוג</th>
+      <th>כתובת</th>
+      <th>אופי הגן</th>
+      <th>שם הגן</th>
+    </tr>
+    <tr>
+      <td>כוכבים</td>
+      <td>באר שבע, שכונה ה</td>
+      <td>חילוני</td>
+      <td>
+        <li><a href="ganTemplate.html">גן הגפן</a></li>
+      </td>
+    </tr>
+    <tr>
+      <td>כוכבים</td>
+      <td>באר שבע, שכונה ז</td>
+      <td>דתי</td>
+      <td>גן הסמים</td>
+    </tr>
+  </table>
+
+
+  <div class="sortList">
+    <div class="sortHader">
+      <h3>:מיון לפי</h3>
+    </div>
+    <ul>
+      <li>
+        <h4>אופי הגן</h4>
+        <ul class="sort1">
+          <li>
+            <input type="radio" id="dati" name="gardenType">
+            <label for="dati">דתי</label>
+          </li>
+          <li>
+            <input type="radio" id="hiloni" name="gardenType">
+            <label for="hiloni">חילוני</label>
+          </li>
+          <li>
+            <input type="radio" id="mamlachti" name="gardenType">
+            <label for="mamlachti">ממלכתי</label>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <h4>שכונה</h4>
+        <ul class="sort2">
+          <li>
+            <input type="radio" id="neighborhoodA" name="neighborhood">
+            <label for="neighborhoodA">שכונה א</label>
+          </li>
+          <li>
+            <input type="radio" id="neighborhoodB" name="neighborhood">
+            <label for="neighborhoodB">שכונה ב</label>
+          </li>
+          <li>
+            <input type="radio" id="neighborhoodC" name="neighborhood">
+            <label for="neighborhoodC">שכונה ג</label>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <h4>דירוג</h4>
+        <ul class="sort3">
+          <li>
+            <input type="radio" id="rating1" name="rating">
+            <label for="rating1">כוכבים</label>
+          </li>
+          <li>
+            <input type="radio" id="rating2" name="rating">
+            <label for="rating2">כוכבים</label>
+          </li>
+          <li>
+            <input type="radio" id="rating3" name="rating">
+            <label for="rating3">כוכבים</label>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+
+
+
+  </div>
+
+
+</body>
+
+</html> 

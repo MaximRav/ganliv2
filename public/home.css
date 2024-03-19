@@ -32,3 +32,11 @@
   width: 60%;
   z-index: -1;
 }
+
+.logo {
+  font-family: "Secular One";
+  padding-right: 0;
+  font-weight: bold;
+  font-size: 64px;
+  color: #ffa800;
+}

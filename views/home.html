@@ -14,12 +14,12 @@
   <header>
     <bar>
       <ul>
-        <li class="logo"><a href="/">גן-לי</a></li>
-        <li><a href="/">בית</a></li>
-        <li><a href="aboutPage.html">אודות</a></li>
-        <li><a href="GardensList.html">גנים</a></li>
+        <li class="logo"><a href="/home.html">גן-לי</a></li>
+        <li><a href="/home.html">בית</a></li>
+        <li><a href="/aboutPage.html">אודות</a></li>
+        <li><a href="/ganimlist.html" onclick="checkLoginAndRedirect(event)">גנים</a></li>
         <li>
-          <a href="/login" class="login">התחברות</a>
+          <a href="/login" class="login" id="loginLink">התחברות</a>
         </li>
       </ul>
     </bar>
@@ -27,12 +27,29 @@
 
   <p class="slogan">המקום המושלם <br />!לבחירת הגן שלך</p>
 
-  <a href="GardensList.html"><button class="start-button">לרשימת הגנים לחץ כאן</button></a>
+  <a href="/ganimlist.html" onclick="checkLoginAndRedirect(event)"><button class="start-button">לצפייה ברשימת
+      הגנים</button></a>
 
   <img src="https://github.com/Dianka157/Ganli_Project/blob/main/general/homephoto.png?raw=true" alt="Homepage Image"
     class="homeImg" />
 
+  <script>
+    function checkLoginAndRedirect(event) {
+      event.preventDefault(); // Prevent the default link behavior
 
+      fetch('/isLoggedIn')
+        .then(response => response.json())
+        .then(data => {
+          const isLoggedIn = data.isLoggedIn;
+
+          if (isLoggedIn) {
+            window.location.href = event.target.getAttribute('href');
+          } else {
+            alert('נדרש להתחבר על מנת לצפות ברשימת הגנים');
+          }
+        });
+    }
+  </script>
 </body>
 
 </html>

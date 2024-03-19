@@ -31,11 +31,11 @@ const LoginSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['parent', 'teacher', 'admin'],
+        enum: ['הורה', 'גננת', 'admin'],
         required: true
     }
 });
 
 const collection = mongoose.model("users", LoginSchema);
 
-module.exports = collection;
+module.exports = collection; 
