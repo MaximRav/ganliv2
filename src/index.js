@@ -73,8 +73,24 @@ app.get('/ganimlist.html', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'ganimlist.html'));
 });
 
-app.get('/selfPage.html', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'views', 'selfPage.html'));
+app.get('/selfPageP.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'selfPageP.html'));
+});
+
+app.get('/selfPageG.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'selfPageG.html'));
+});
+
+app.get('/selfPageA.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'selfPageA.html'));
+});
+
+app.get('/buildGan.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'buildGan.html'));
+});
+
+app.get('/buildGan.css', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'buildGan.css'));
 });
 
 app.get('/HomeLog.html', (req, res) => {
@@ -102,6 +118,7 @@ app.post('/signup', async (req, res) => {
         email: req.body.useremail,
         password: req.body.password,
         role: req.body.role,
+        phone: req.body.phone,
     };
 
     try {
@@ -137,7 +154,7 @@ app.post('/login', async (req, res) => {
 
         if (isPasswordMatch) {
             req.session.isLoggedIn = true;
-            req.session.userEmail = check.email; // Store the user's email in the session
+            req.session.userEmail = check.email;
             return res.redirect('/HomeLog.html');
         } else {
             return res.send('<script>alert("סיסמא לא נכונה"); window.location.href = "/";</script>');
@@ -150,31 +167,75 @@ app.post('/login', async (req, res) => {
 
 app.get('/profile', async (req, res) => {
     try {
-        // Check if the user is logged in
         if (!req.session.isLoggedIn) {
             return res.status(401).json({ error: 'Unauthorized' });
         }
 
-        // Fetch the user's profile data from the database
         const user = await collection.findOne({ email: req.session.userEmail });
 
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        // Extract the relevant profile data from the user object
         const profileData = {
             fullname: user.fullname,
             email: user.email,
-            phone: user.phone || '', // Replace with the appropriate field name for phone number
+            phone: user.phone || '',
             role: user.role,
-            profilePicture: user.profilePicture || 'https://via.placeholder.com/150' // Replace with the appropriate field name for profile picture
+            profilePicture: user.profilePicture || 'https://via.placeholder.com/150'
         };
 
         res.json(profileData);
     } catch (error) {
         console.error('Error fetching profile data:', error);
         res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.put('/profile', async (req, res) => {
+    try {
+        if (!req.session.isLoggedIn) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        const updatedProfileData = req.body;
+
+        const result = await collection.updateOne(
+            { email: req.session.userEmail },
+            { $set: updatedProfileData }
+        );
+
+        if (result.modifiedCount === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json({ message: 'Profile updated successfully' });
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.post('/buildGan', async (req, res) => {
+    try {
+        const ganData = {
+            ganName: req.body.ganName,
+            buildYear: req.body.buildYear,
+            NumOfGardens: req.body.NumOfGardens,
+            price: req.body.price,
+            address: req.body.address,
+            character: req.body.character,
+            maxKids: req.body.maxKids,
+            workTime: req.body.workTime,
+            description: req.body.description
+        };
+
+
+
+        res.send('<script>alert("Gan added successfully"); window.location.href = "/buildGan.html";</script>');
+    } catch (error) {
+        console.error('Error adding gan:', error);
+        res.status(500).send('Internal Server Error');
     }
 });
 

@@ -20,6 +20,7 @@ bar {
   font-weight: bold;
   font-size: 64px;
   color: #ffa800;
+  text-align: right;
 }
 
 bar ul {

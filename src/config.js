@@ -38,9 +38,8 @@ const LoginSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-
 });
 
 const collection = mongoose.model("users", LoginSchema);
 
-module.exports = collection; 
+module.exports = collection;

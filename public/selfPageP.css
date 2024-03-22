@@ -8,13 +8,6 @@
     text-align: center;
 }
 
-.profile-info img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
-}
 
 .form-group {
     margin-bottom: 10px;

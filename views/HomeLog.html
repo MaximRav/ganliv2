@@ -14,11 +14,11 @@
     <header>
         <bar>
             <ul>
-                <li class="logo"><a href="/HomeLog.html">גן-לי</a></li>
-                <li><a href="/HomeLog.html">בית</a></li>
-                <li><a href="/aboutPage.html">אודות</a></li>
+                <li><a href="/selfPage" id="selfPageLink">אזור אישי</a></li>
                 <li><a href="/ganimlist.html">גנים</a></li>
-                <li><a href="/selfPage.html">אזור אישי</a></li>
+                <li><a href="/aboutPage.html">אודות</a></li>
+                <li><a href="/HomeLog.html">בית</a></li>
+                <li><a href="/HomeLog.html" class="logo">גן-לי</a></li>
                 <li>
                     <a href="/logout" class="login" id="logoutLink">התנתקות</a>
                 </li>
@@ -34,5 +34,27 @@
         class="homeImg" />
 
 </body>
+
+<script>
+    // Get the user's role from the server
+    fetch('/profile')
+        .then(response => response.json())
+        .then(data => {
+            const userRole = data.role;
+            const selfPageLink = document.getElementById('selfPageLink');
+
+            // Update the selfPageLink based on the user's role
+            if (userRole === 'הורה') {
+                selfPageLink.href = '/selfPageP.html';
+            } else if (userRole === 'גננת') {
+                selfPageLink.href = '/selfPageG.html';
+            } else if (userRole === 'admin') {
+                selfPageLink.href = '/selfPageA.html';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching user role:', error);
+        });
+</script>
 
 </html>
