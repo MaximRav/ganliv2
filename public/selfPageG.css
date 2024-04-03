@@ -1,6 +1,15 @@
+.main-container {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-evenly;
+    max-width: -webkit-fill-available;
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .container {
-    max-width: 400px;
-    margin: 0 auto;
+    width: 1044px;
     padding: 20px;
     background-color: #FFE3A2;
     border-radius: 5px;
@@ -22,26 +31,57 @@
     display: block;
     width: 100%;
     padding: 10px;
-    background-color: #FFF0D9;
-    color: #000000;
-    border: solid #FFA800;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #FFA800;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    border: solid 2px #FFA800;
+    border-radius: 5px;
+    font-size: 20px;
+    color: black;
 }
 
-.edit-btn :hover {
-    display: block;
-    width: 100%;
-    padding: 10px;
+.edit-btn:hover {
     background-color: #FFE3A2;
     color: #ffffff;
+}
+
+.gan-list-container {
+    max-width: 400px;
+    padding: 20px;
+    background-color: #FFE3A2;
+    border-radius: 5px;
     border: solid #FFA800;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 16px;
+    text-align: right;
     margin-top: 20px;
+    margin-right: 20px;
+    width: -webkit-fill-available;
+    ;
+    height: 293px;
+}
+
+.gan-list-container h2 {
+    margin-top: 0;
+}
+
+.gan-list-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.gan-list-container li {
+    margin-bottom: 10px;
+}
+
+.gan-list-container a {
+    text-decoration: none;
+    color: #333;
+
+}
+
+.gan-list-container button {
+    margin-left: 10px;
 }
 
 .add-gan-container {
@@ -51,9 +91,21 @@
 
 .addGan {
     display: inline-block;
-    color: #000000;
+    padding: 10px 20px;
+    background-color: #FFA800;
+    color: white;
     text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
-    margin-right: 360px;
+    border-radius: 5px;
+    border: solid 2px #FFA800;
+    border-radius: 5px;
+}
+
+.addGan:hover {
+    background-color: #FFE3A2;
+
+}
+
+.mygans {
+    font-family: "Varela Round";
+    font-style: lighter;
 }

@@ -3,9 +3,9 @@ const mongoose = require("mongoose");
 const connect = mongoose.connect("mongodb+srv://Ganli:Ganli123@ganli.7my2zmp.mongodb.net/", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    dbName: "ganli", // replace "your_database_name" with your actual database name
-    user: "Ganli", // replace "Ganli" with your actual username
-    pass: "Ganli123", // replace "your_password" with your actual password
+    dbName: "ganli",
+    user: "Ganli",
+    pass: "Ganli123",
 });
 
 connect
@@ -40,6 +40,79 @@ const LoginSchema = new mongoose.Schema({
     }
 });
 
-const collection = mongoose.model("users", LoginSchema);
+const GanSchema = new mongoose.Schema({
+    notifications: [
+        {
+            text: {
+                type: String,
+                required: true
+            }
+        }
+    ],
+    createdBy: {
+        type: String,
+        required: true
+    },
+    ganName: {
+        type: String,
+        required: true
+    },
+    gordenName: {
+        type: String,
+        required: true
+    },
+    buildYear: {
+        type: Number,
+        required: true
+    },
+    NumOfkids: {
+        type: Number,
+        required: true
+    },
+    price: {
+        type: String,
+        required: true
+    },
+    address: {
+        type: String,
+        required: true
+    },
+    character: {
+        type: String,
+        enum: ['חילוני', 'דתי', 'ממלכתי'],
+        required: true
+    },
+    maxKids: {
+        type: Number,
+        required: true
+    },
+    workTime: {
+        type: String,
+        required: true
+    },
+    vision: {
+        type: String,
+        required: true
+    },
+    principles: {
+        type: String,
+        required: true
+    },
+    approved: {
+        type: Boolean,
+        default: false
+    },
+    reviews: [
+        {
+            text: {
+                type: String,
+                required: true
+            }
+        }
+    ]
+});
 
-module.exports = collection;
+const collection = mongoose.model("users", LoginSchema);
+const Gan = mongoose.model("gans", GanSchema);
+
+module.exports = { collection, Gan };

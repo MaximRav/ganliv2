@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>אזור אישי</title>
     <link rel="stylesheet" href="/navibar.css" />
-    <link rel="stylesheet" href="/selfPageG.css" />
+    <link rel="stylesheet" href="/selfPageA.css" />
 </head>
 
 <body>
     <header>
         <bar>
             <ul>
-                <li><a href="/selfPage" id="selfPageLink">אזור אישי</a></li>
+                <li><a href="/selfPage">אזור אישי</a></li>
                 <li><a href="/ganimlist.html">גנים</a></li>
                 <li><a href="/aboutPage.html">אודות</a></li>
                 <li><a href="/HomeLog.html">בית</a></li>
@@ -24,8 +24,8 @@
             </ul>
         </bar>
     </header>
-
     <div class="main-container">
+
         <div class="container">
             <div class="profile-info">
                 <form id="profileForm">
@@ -45,17 +45,14 @@
                         <h3>תפקיד</h3>
                         <span id="role"></span>
                     </div>
-                    <button type="button" class="edit-btn" id="editProfileBtn">ערוך</button>
+                    <button type="button" class="edit-btn" id="editProfileBtn">עריכה</button>
                 </form>
             </div>
         </div>
 
-        <div class="gan-list-container">
-            <h2 class="mygans">הגנים שלי</h2>
-            <ul id="ganList"></ul>
-            <div class="add-gan-container">
-                <a href="/buildGan.html" class="addGan">הוספת גן</a>
-            </div>
+        <div class="approveGan">
+            <h2>התראות</h2>
+            <ul id="ganApprovalList"></ul>
         </div>
     </div>
 
@@ -77,44 +74,7 @@
                 emailSpan.textContent = data.email;
                 phoneSpan.textContent = data.phone;
                 roleSpan.textContent = data.role;
-
-                // Fetch the gans list only if the user is a gannenet
-                if (data.role === 'גננת') {
-                    fetch(`/gans/byUser?email=${data.email}`)
-                        .then(response => response.json())
-                        .then(gans => {
-                            const ganList = document.getElementById('ganList');
-                            ganList.innerHTML = ''; // Clear the existing list
-
-                            gans.forEach(gan => {
-                                const listItem = document.createElement('li');
-                                const link = document.createElement('a');
-                                link.href = `/gan/${gan._id}`;
-                                link.textContent = gan.ganName;
-                                listItem.appendChild(link);
-
-                                const editButton = document.createElement('button');
-                                editButton.textContent = 'ערוך';
-                                editButton.setAttribute('data-gan-id', gan._id);
-                                editButton.addEventListener('click', () => editGan(gan._id));
-                                listItem.appendChild(editButton);
-
-                                const deleteButton = document.createElement('button');
-                                deleteButton.textContent = 'מחק';
-                                deleteButton.addEventListener('click', () => deleteGan(gan._id));
-                                listItem.appendChild(deleteButton);
-
-                                ganList.appendChild(listItem);
-                            });
-                        })
-                        .catch(error => {
-                            console.error('Error fetching gans by user:', error);
-                        });
-                }
             })
-            .catch(error => {
-                console.error('Error fetching profile data:', error);
-            });
 
         // Handle edit profile button click
         editProfileBtn.addEventListener('click', function handleEditClick() {
@@ -165,8 +125,8 @@
 
                         alert('Profile updated successfully');
                     } else {
-                        console.error('Error updating profile');
-                        alert('Failed to update profile');
+                        console.error('Profile updated successfully');
+                        alert('Profile updated successfully');
                     }
                 })
                 .catch(error => {
@@ -175,30 +135,93 @@
                 });
         }
 
-        // Function to delete a gan
-        function deleteGan(ganId) {
-            if (confirm('האם אתה בטוח שברצונך למחוק את הגן?')) {
-                fetch(`/gans/${ganId}`, { method: 'DELETE' })
-                    .then(response => {
-                        if (response.ok) {
-                            alert('הגן נמחק בהצלחה');
-                            // Remove the deleted gan from the list
-                            const listItem = document.querySelector(`#ganList li a[href="/gan/${ganId}"]`).parentElement;
-                            listItem.remove();
-                        } else {
-                            alert('הגן נמחק בהצלחה');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error deleting gan:', error);
-                        alert('הגן נמחק בהצלחה');
-                    });
-            }
+        fetch('/profile')
+            .then(response => response.json())
+            .then(data => {
+                const userRole = data.role;
+                const selfPageLink = document.getElementById('selfPageLink');
+
+                // Update the selfPageLink based on the user's role
+                if (userRole === 'הורה') {
+                    selfPageLink.href = '/selfPageP.html';
+                } else if (userRole === 'גננת') {
+                    selfPageLink.href = '/selfPageG.html';
+                } else if (userRole === 'admin') {
+                    selfPageLink.href = '/selfPageA.html';
+                }
+
+                // Populate the form with the user's profile data
+                fullnameSpan.textContent = data.fullname;
+                emailSpan.textContent = data.email;
+                phoneSpan.textContent = data.phone;
+                roleSpan.textContent = data.role;
+            })
+
+        // Fetch the list of gans waiting for approval
+        fetch('/gans/waiting')
+            .then(response => response.json())
+            .then(data => {
+                const ganApprovalList = document.getElementById('ganApprovalList');
+                data.forEach(gan => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = gan.ganName;
+                    listItem.setAttribute('data-gan-id', gan._id);
+
+                    const approveButton = document.createElement('button');
+                    approveButton.textContent = 'אישור';
+                    approveButton.addEventListener('click', () => approveGan(gan._id));
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'מחיקה';
+                    deleteButton.addEventListener('click', () => deleteGan(gan._id));
+
+                    listItem.appendChild(approveButton);
+                    listItem.appendChild(deleteButton);
+                    ganApprovalList.appendChild(listItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching gans waiting for approval:', error);
+            });
+
+        // Function to approve a gan
+        function approveGan(ganId) {
+            fetch(`/gans/${ganId}/approve`, { method: 'PUT' })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Gan approved successfully');
+                        // Remove the approved gan from the list
+                        const listItem = document.querySelector(`#ganApprovalList li[data-gan-id="${ganId}"]`);
+                        listItem.remove();
+                    } else {
+                        console.error('Error approving gan');
+                        alert('Failed to approve gan');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error approving gan:', error);
+                    alert('Failed to approve gan');
+                });
         }
 
-        // Function to edit a gan
-        function editGan(ganId) {
-            window.location.href = `/editGan.html?ganId=${ganId}`;
+        // Function to delete a gan
+        function deleteGan(ganId) {
+            fetch(`/gans/${ganId}`, { method: 'DELETE' })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Gan deleted successfully');
+                        // Remove the deleted gan from the list
+                        const listItem = document.querySelector(`#ganApprovalList li[data-gan-id="${ganId}"]`);
+                        listItem.remove();
+                    } else {
+                        console.error('Error deleting gan');
+                        alert('Failed to delete gan');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting gan:', error);
+                    alert('Failed to delete gan');
+                });
         }
     </script>
 </body>

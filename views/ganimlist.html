@@ -14,14 +14,13 @@
   <header>
     <bar>
       <ul>
-        <a href="/HomeLog.html">
-        </a>
-        <li><a href="ganimlist.html">גנים</a></li>
-        <li><a href="aboutPage.html">אודות</a></li>
+        <li><a href="/selfPage" id="selfPageLink">אזור אישי</a></li>
+        <li><a href="/ganimlist.html">גנים</a></li>
+        <li><a href="/aboutPage.html">אודות</a></li>
         <li><a href="/HomeLog.html">בית</a></li>
-        <li class="logo">גן-לי</li>
+        <li><a href="/HomeLog.html" class="logo">גן-לי</a></li>
         <li>
-          <a href="/home.html" class="login" onclick="openLoginPopup()">התנתקות</a>
+          <a href="/logout" class="login" id="logoutLink">התנתקות</a>
         </li>
       </ul>
     </bar>
@@ -36,20 +35,7 @@
       <th>אופי הגן</th>
       <th>שם הגן</th>
     </tr>
-    <tr>
-      <td>כוכבים</td>
-      <td>באר שבע, שכונה ה</td>
-      <td>חילוני</td>
-      <td>
-        <li><a href="ganTemplate.html">גן הגפן</a></li>
-      </td>
-    </tr>
-    <tr>
-      <td>כוכבים</td>
-      <td>באר שבע, שכונה ז</td>
-      <td>דתי</td>
-      <td>גן הסמים</td>
-    </tr>
+
   </table>
 
 
@@ -112,12 +98,46 @@
     </ul>
   </div>
 
+  <script>
+    // Fetch the list of approved gans
+    fetch('/gans/approved')
+      .then(response => response.json())
+      .then(data => {
+        const ganimList = document.querySelector('.ganimList');
+        data.forEach(gan => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${gan.rating}</td>
+            <td>${gan.address}</td>
+            <td>${gan.character}</td>
+            <td><a href="/gan/${gan._id}">${gan.ganName}</a></td>
+          `;
+          ganimList.appendChild(row);
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching approved gans:', error);
+      });
 
+    fetch('/profile')
+      .then(response => response.json())
+      .then(data => {
+        const userRole = data.role;
+        const selfPageLink = document.getElementById('selfPageLink');
 
-
-  </div>
-
-
+        // Update the selfPageLink based on the user's role
+        if (userRole === 'הורה') {
+          selfPageLink.href = '/selfPageP.html';
+        } else if (userRole === 'גננת') {
+          selfPageLink.href = '/selfPageG.html';
+        } else if (userRole === 'admin') {
+          selfPageLink.href = '/selfPageA.html';
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching user role:', error);
+      });
+  </script>
 </body>
 
 </html>

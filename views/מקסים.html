@@ -1,0 +1,169 @@
+
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <link rel="stylesheet" href="/navibar.css" />
+                <link rel="stylesheet" href="/ganTamp.css" />
+                <title>מקסים</title>
+            </head>
+            <body>
+                <header>
+                    <bar>
+                        <ul>
+                        <li><a href="/selfPage" id="selfPageLink">אזור אישי</a></li>
+                            <li><a href="/ganimlist.html">גנים</a></li>
+                            <li><a href="/aboutPage.html">אודות</a></li>
+                            <li><a href="/HomeLog.html">בית</a></li>
+                            <li><a href="/HomeLog.html" class="logo">גן-לי</a></li>
+                            <li>
+                                <a href="/logout" class="login" id="logoutLink">התנתקות</a>
+                            </li>
+                        </ul>
+                    </bar>
+                </header>
+                <main class="inner">
+                    <section class="frame-group">
+                        <div class="frame-container">
+                            <div class="frame-div">
+                                <div class="frame-parent1">
+                                    <div class="rectangle-group">
+                                        <div class="frame-item"></div>
+                                        <div class="container">
+                                            <div class="div5">:התראות מן הגן</div>
+                                        </div>
+                                        <div class="div6">
+                                            <p class="p"></p>
+                                        </div>
+                                    </div>
+                                    <div class="frame-parent2">
+                                        <div class="rectangle-container">
+                                            <div class="frame-inner"></div>
+                                            <div class="div7">:חזון הגן</div>
+                                            <div class="div8">
+                                                <p class="p2">לא לא לא </p>
+                                            </div>
+                                        </div>
+                                        <div class="rectangle-parent1">
+                                            <div class="rectangle-div"></div>
+                                            <div class="div9">:עקרונות הגן</div>
+                                            <div class="div10">
+                                                <ol class="ol">
+                                                    <li class="li">כן כן כן
+</li>
+                                                </ol>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="frame-parent3">
+                                <div class="rectangle-parent2">
+                                    <div class="frame-child1"></div>
+                                    <div class="div10">
+                                        <span>שם הגן:</span>
+                                        <span class="span">מקסים</span>
+                                    </div>
+                                    <div class="div11">
+                                        <span>שם הגננת:</span>
+                                        <span class="span">גדי</span>
+                                    </div>
+                                    <div class="div13">
+                                        <span>שנת הקמה:</span>
+                                        <span class="span2">2025</span>
+                                    </div>
+                                    <div class="div14">
+                                        <span>אופי הגן:</span>
+                                        <span class="span3">חילוני</span>
+                                    </div>
+                                    <div class="div16">
+                                        <span>מספר ילדים:</span>
+                                        <span class="span5">2</span>
+                                    </div>
+                                    <div class="div17">
+                                        <span>מחיר:</span>
+                                        <span class="span6">5000</span>
+                                    </div>
+                                    <div class="div19">
+                                        <p class="p4">
+                                            <span class="span8">שעות פעילות:</span>
+                                            <span> </span>
+                                        </p>
+                                        <p class="p5">7-16</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rectangle-parent3">
+                            <div class="rectangle-parent4">
+                                <div class="frame-child3"></div>
+                                <div class="frame-parent4">
+                                    <!-- Reviews section -->
+                                </div>
+                                <div class="frame">
+                                    <div class="div23">הוסף ביקורת</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+                <!--REPLACE_WITH_ADMIN_BUTTONS-->
+            </body>
+            <script>
+                // Get the user's role from the server
+                fetch('/profile')
+                    .then(response => response.json())
+                    .then(data => {
+                        const userRole = data.role;
+                        const selfPageLink = document.getElementById('selfPageLink');
+
+                        // Update the selfPageLink based on the user's role
+                        if (userRole === 'הורה') {
+                            selfPageLink.href = '/selfPageP.html';
+                        } else if (userRole === 'גננת') {
+                            selfPageLink.href = '/selfPageG.html';
+                        } else if (userRole === 'admin') {
+                            selfPageLink.href = '/selfPageA.html';
+                        }
+
+                        // Check if the user is an admin
+                        if (userRole === 'admin') {
+                            // Inject the edit and delete buttons for admin users
+                            const adminButtonsContainer = document.createElement('div');
+                            adminButtonsContainer.innerHTML = `
+                            
+                            `;
+                            document.body.appendChild(adminButtonsContainer);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching user role:', error);
+                    });
+
+                // Function to edit a gan
+                function editGan(ganId) {
+                    window.location.href = `/editGan.html?ganId=${ganId}`;
+                }
+
+                // Function to delete a gan
+                function deleteGan(ganId) {
+                    if (confirm('האם אתה בטוח שברצונך למחוק את הגן?')) {
+                        fetch(`/gans/${ganId}`, { method: 'DELETE' })
+                            .then(response => {
+                                if (response.ok) {
+                                    alert('הגן נמחק בהצלחה');
+                                    window.location.href = '/ganimlist.html';
+                                } else {
+                                    alert('שגיאה במחיקת הגן');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error deleting gan:', error);
+                                alert('שגיאה במחיקת הגן');
+                            });
+                    }
+                }
+            </script>
+            </html>
+        

@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const collection = require('./config');
+const { collection, Gan } = require('./config');
+const fs = require('fs').promises;
 const path = require('path');
 const session = require('express-session');
 
@@ -67,6 +68,10 @@ app.get('/home.html', (req, res) => {
 
 app.get('/aboutPage.html', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'aboutPage.html'));
+});
+
+app.get('/gantamp.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'gantamp.html'));
 });
 
 app.get('/ganimlist.html', (req, res) => {
@@ -144,6 +149,7 @@ app.post('/signup', async (req, res) => {
 
 app.post('/login', async (req, res) => {
     try {
+        console.log('Request body:', req.body);
         const check = await collection.findOne({ email: req.body.useremail });
 
         if (!check) {
@@ -155,6 +161,7 @@ app.post('/login', async (req, res) => {
         if (isPasswordMatch) {
             req.session.isLoggedIn = true;
             req.session.userEmail = check.email;
+            req.session.userRole = check.role;
             return res.redirect('/HomeLog.html');
         } else {
             return res.send('<script>alert("סיסמא לא נכונה"); window.location.href = "/";</script>');
@@ -220,22 +227,450 @@ app.post('/buildGan', async (req, res) => {
     try {
         const ganData = {
             ganName: req.body.ganName,
+            gordenName: req.body.gordenName,
             buildYear: req.body.buildYear,
-            NumOfGardens: req.body.NumOfGardens,
+            NumOfkids: req.body.NumOfkids,
             price: req.body.price,
             address: req.body.address,
             character: req.body.character,
             maxKids: req.body.maxKids,
             workTime: req.body.workTime,
-            description: req.body.description
+            vision: req.body.vision,
+            principles: req.body.principles,
+            notifications: []
         };
 
+        let gan;
+        if (req.body.ganId) {
+            // Update existing gan
+            gan = await Gan.findByIdAndUpdate(req.body.ganId, ganData, { new: true });
+        } else {
+            // Create new gan
+            ganData.createdBy = req.session.userEmail;
+            gan = await Gan.create(ganData);
+        }
 
+        // Create or update the HTML file for the gan
+        const ganHtmlContent = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <link rel="stylesheet" href="/navibar.css" />
+                <link rel="stylesheet" href="/ganTamp.css" />
+                <title>${ganData.ganName}</title>
+            </head>
+            <body>
+                <header>
+                    <bar>
+                        <ul>
+                        <li><a href="/selfPage" id="selfPageLink">אזור אישי</a></li>
+                            <li><a href="/ganimlist.html">גנים</a></li>
+                            <li><a href="/aboutPage.html">אודות</a></li>
+                            <li><a href="/HomeLog.html">בית</a></li>
+                            <li><a href="/HomeLog.html" class="logo">גן-לי</a></li>
+                            <li>
+                                <a href="/logout" class="login" id="logoutLink">התנתקות</a>
+                            </li>
+                        </ul>
+                    </bar>
+                </header>
+                <main class="inner">
+                    <section class="frame-group">
+                        <div class="frame-container">
+                            <div class="frame-div">
+                                <div class="frame-parent1">
+                                    <div class="rectangle-group">
+                                        <div class="frame-item"></div>
+                                        <div class="container">
+                                            <div class="div5">:התראות מן הגן</div>
+                                        </div>
+                                        <div class="div6">
+                                            <p class="p"></p>
+                                        </div>
+                                    </div>
+                                    <div class="frame-parent2">
+                                        <div class="rectangle-container">
+                                            <div class="frame-inner"></div>
+                                            <div class="div7">:חזון הגן</div>
+                                            <div class="div8">
+                                                <p class="p2">${ganData.vision}</p>
+                                            </div>
+                                        </div>
+                                        <div class="rectangle-parent1">
+                                            <div class="rectangle-div"></div>
+                                            <div class="div9">:עקרונות הגן</div>
+                                            <div class="div10">
+                                                <ol class="ol">
+                                                    <li class="li">${ganData.principles}</li>
+                                                </ol>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="frame-parent3">
+                                <div class="rectangle-parent2">
+                                    <div class="frame-child1"></div>
+                                    <div class="div10">
+                                        <span>שם הגן:</span>
+                                        <span class="span">${ganData.ganName}</span>
+                                    </div>
+                                    <div class="div11">
+                                        <span>שם הגננת:</span>
+                                        <span class="span">${ganData.gordenName}</span>
+                                    </div>
+                                    <div class="div13">
+                                        <span>שנת הקמה:</span>
+                                        <span class="span2">${ganData.buildYear}</span>
+                                    </div>
+                                    <div class="div14">
+                                        <span>אופי הגן:</span>
+                                        <span class="span3">${ganData.character}</span>
+                                    </div>
+                                    <div class="div16">
+                                        <span>מספר ילדים:</span>
+                                        <span class="span5">${ganData.NumOfkids}</span>
+                                    </div>
+                                    <div class="div17">
+                                        <span>מחיר:</span>
+                                        <span class="span6">${ganData.price}</span>
+                                    </div>
+                                    <div class="div19">
+                                        <p class="p4">
+                                            <span class="span8">שעות פעילות:</span>
+                                            <span> </span>
+                                        </p>
+                                        <p class="p5">${ganData.workTime}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rectangle-parent3">
+                            <div class="rectangle-parent4">
+                                <div class="frame-child3"></div>
+                                <div class="frame-parent4">
+                                    <!-- Reviews section -->
+                                </div>
+                                <div class="frame">
+                                    <div class="div23">הוסף ביקורת</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+                <!--REPLACE_WITH_ADMIN_BUTTONS-->
+            </body>
+            <script>
+                // Get the user's role from the server
+                fetch('/profile')
+                    .then(response => response.json())
+                    .then(data => {
+                        const userRole = data.role;
+                        const selfPageLink = document.getElementById('selfPageLink');
 
-        res.send('<script>alert("Gan added successfully"); window.location.href = "/buildGan.html";</script>');
+                        // Update the selfPageLink based on the user's role
+                        if (userRole === 'הורה') {
+                            selfPageLink.href = '/selfPageP.html';
+                        } else if (userRole === 'גננת') {
+                            selfPageLink.href = '/selfPageG.html';
+                        } else if (userRole === 'admin') {
+                            selfPageLink.href = '/selfPageA.html';
+                        }
+
+                        // Check if the user is an admin
+                        if (userRole === 'admin') {
+                            // Inject the edit and delete buttons for admin users
+                            const adminButtonsContainer = document.createElement('div');
+                            adminButtonsContainer.innerHTML = \`
+                            
+                            \`;
+                            document.body.appendChild(adminButtonsContainer);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching user role:', error);
+                    });
+
+                // Function to edit a gan
+                function editGan(ganId) {
+                    window.location.href = \`/editGan.html?ganId=\${ganId}\`;
+                }
+
+                // Function to delete a gan
+                function deleteGan(ganId) {
+                    if (confirm('האם אתה בטוח שברצונך למחוק את הגן?')) {
+                        fetch(\`/gans/\${ganId}\`, { method: 'DELETE' })
+                            .then(response => {
+                                if (response.ok) {
+                                    alert('הגן נמחק בהצלחה');
+                                    window.location.href = '/ganimlist.html';
+                                } else {
+                                    alert('שגיאה במחיקת הגן');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error deleting gan:', error);
+                                alert('שגיאה במחיקת הגן');
+                            });
+                    }
+                }
+            </script>
+            </html>
+        `;
+
+        // Save the HTML file for the gan
+        const ganHtmlPath = path.join(__dirname, '..', 'views', `${gan.ganName}.html`);
+        await fs.writeFile(ganHtmlPath, ganHtmlContent);
+
+        res.send('<script>alert("Gan saved successfully"); window.location.href = "/selfPageG.html";</script>');
     } catch (error) {
-        console.error('Error adding gan:', error);
+        console.error('Error saving gan:', error);
         res.status(500).send('Internal Server Error');
+    }
+});
+// Route to get the list of gans waiting for approval
+app.get('/gans/waiting', async (req, res) => {
+    try {
+        const gans = await Gan.find({ approved: false });
+        res.json(gans);
+    } catch (error) {
+        console.error('Error fetching gans waiting for approval:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// Route to approve a gan
+app.put('/gans/:ganId/approve', async (req, res) => {
+    try {
+        const { ganId } = req.params;
+        await Gan.findByIdAndUpdate(ganId, { approved: true });
+        res.sendStatus(200);
+    } catch (error) {
+        console.error('Error approving gan:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// Route to delete a gan
+app.delete('/gans/:ganId', async (req, res) => {
+    try {
+        const { ganId } = req.params;
+        // Delete the gan from the database
+        await Gan.findByIdAndDelete(ganId);
+
+        // Delete the HTML file associated with the gan
+        const ganHtmlPath = path.join(__dirname, '..', 'views', `${ganId}.html`);
+        await fs.unlink(ganHtmlPath);
+
+        res.sendStatus(200);
+    } catch (error) {
+        console.error('Error deleting gan:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// Route to get the list of approved gans
+app.get('/gans/approved', async (req, res) => {
+    try {
+        const gans = await Gan.find({ approved: true });
+        res.json(gans);
+    } catch (error) {
+        console.error('Error fetching approved gans:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.get('/gan/:ganId', async (req, res) => {
+    try {
+        const { ganId } = req.params;
+        const gan = await Gan.findById(ganId);
+
+        if (!gan) {
+            return res.status(404).send('Gan not found');
+        }
+
+        const isAdmin = req.session.userRole === 'admin';
+        const isGorden = req.session.userEmail === gan.gordenName;
+
+        const ganHtmlPath = path.join(__dirname, '..', 'views', `${gan.ganName}.html`);
+        let ganHtmlContent = await fs.readFile(ganHtmlPath, 'utf-8');
+
+        // Inject the isAdmin and isGorden values into the HTML content
+        ganHtmlContent = ganHtmlContent.replace(
+            '<!--REPLACE_WITH_ADMIN_GORDEN_STATUS-->',
+            `<script>
+                var isAdmin = ${isAdmin};
+                var isGorden = ${isGorden};
+            </script>`
+        );
+
+        // Inject the edit and delete buttons for admin users
+        if (isAdmin) {
+            ganHtmlContent = ganHtmlContent.replace(
+                '<!--REPLACE_WITH_ADMIN_BUTTONS-->',
+                `<div class="admin-buttons">
+                    <button onclick="editGan('${gan._id}')">עריכת עמוד</button>
+                    <button onclick="deleteGan('${gan._id}')">מחיקת גן</button>
+                </div>`
+            );
+        }
+
+        res.send(ganHtmlContent);
+    } catch (error) {
+        console.error('Error fetching gan:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.get('/ganTamp.css', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'ganTamp.css'));
+});
+
+app.get('/gans/byUser', async (req, res) => {
+    try {
+        if (!req.session.isLoggedIn) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        const userRole = req.session.userRole;
+        if (userRole !== 'גננת') {
+            return res.status(403).json({ error: 'Forbidden' });
+        }
+
+        const userEmail = req.query.email;
+        const gans = await Gan.find({ createdBy: userEmail });
+        res.json(gans);
+    } catch (error) {
+        console.error('Error fetching gans by user:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.put('/gans/:ganId/approve', async (req, res) => {
+    try {
+        const { ganId } = req.params;
+        const updatedGan = await Gan.findByIdAndUpdate(ganId, { approved: true }, { new: true });
+
+        if (!updatedGan) {
+            return res.status(404).json({ error: 'Gan not found' });
+        }
+
+        res.json(updatedGan);
+    } catch (error) {
+        console.error('Error approving gan:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.get('/gans/byUser', async (req, res) => {
+    try {
+        if (!req.session.isLoggedIn) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        const userRole = req.session.userRole;
+        if (userRole !== 'גננת') {
+            return res.status(403).json({ error: 'Forbidden' });
+        }
+
+        const userEmail = req.query.email;
+        const gans = await Gan.find({ createdBy: userEmail });
+        res.json(gans);
+    } catch (error) {
+        console.error('Error fetching gans by user:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.get('/gans/:ganId/edit', async (req, res) => {
+    try {
+        const { ganId } = req.params;
+        const gan = await Gan.findById(ganId);
+
+        if (!gan) {
+            return res.status(404).send('Gan not found');
+        }
+
+        res.json(gan);
+    } catch (error) {
+        console.error('Error fetching gan for editing:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+app.get('/gans/:ganId/edit', async (req, res) => {
+    try {
+        const { ganId } = req.params;
+        const gan = await Gan.findById(ganId);
+
+        if (!gan) {
+            return res.status(404).send('Gan not found');
+        }
+
+        res.json(gan);
+    } catch (error) {
+        console.error('Error fetching gan for editing:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+app.get('/editGan.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'editGan.html'));
+});
+
+app.get('/gans/:ganId/notifications', async (req, res) => {
+    try {
+        const { ganId } = req.params;
+        const gan = await Gan.findById(ganId);
+
+        if (!gan) {
+            return res.status(404).json({ error: 'Gan not found' });
+        }
+
+        res.json(gan.notifications);
+    } catch (error) {
+        console.error('Error fetching gan notifications:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.post('/gans/:ganId/notifications', async (req, res) => {
+    try {
+        const { ganId } = req.params;
+        const { text } = req.body;
+        console.log('ganId:', ganId);
+        console.log('notification text:', text);
+        const gan = await Gan.findByIdAndUpdate(
+            ganId,
+            { $push: { notifications: { text } } },
+            { new: true }
+        );
+        if (!gan) {
+            return res.status(404).json({ error: 'Gan not found' });
+        }
+        res.json({ notifications: gan.notifications });
+    } catch (error) {
+        console.error('Error adding notification:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// Delete a notification for a specific gan
+app.delete('/gans/:ganId/notifications/:notificationId', async (req, res) => {
+    try {
+        const { ganId, notificationId } = req.params;
+        const gan = await Gan.findByIdAndUpdate(
+            ganId,
+            { $pull: { notifications: { _id: notificationId } } },
+            { new: true }
+        );
+        if (!gan) {
+            return res.status(404).json({ error: 'Gan not found' });
+        }
+        res.json({ notifications: gan.notifications });
+    } catch (error) {
+        console.error('Error deleting notification:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>בניית גן</title>
+    <title>עריכת גן</title>
     <link rel="stylesheet" href="/buildGan.css">
     <link rel="stylesheet" href="navibar.css" />
 </head>
@@ -28,6 +28,8 @@
     </header>
 
     <form action="/buildGan" method="post">
+        <input type="hidden" id="ganId" name="ganId">
+
         <label for="ganName">שם הגן</label>
         <input type="text" id="ganName" name="ganName" required>
 
@@ -65,10 +67,9 @@
         <label for="principles">עקרונות גן</label>
         <textarea id="principles" name="principles" rows="4" required></textarea>
 
-        <input type="submit" value="שמירה">
+        <input type="submit" value="עדכון">
     </form>
 </body>
-
 
 <script>
     // Get the user's role from the server
@@ -90,6 +91,56 @@
         .catch(error => {
             console.error('Error fetching user role:', error);
         });
+
+    // Get the gan ID from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const ganId = urlParams.get('ganId');
+
+    // Set the gan ID in the hidden input field
+    document.getElementById('ganId').value = ganId;
+
+    // Fetch the gan data from the server
+    fetch(`/gans/${ganId}/edit`)
+        .then(response => response.json())
+        .then(gan => {
+            // Fill the form fields with the gan data
+            document.getElementById('ganName').value = gan.ganName;
+            document.getElementById('gordenName').value = gan.gordenName;
+            document.getElementById('buildYear').value = gan.buildYear;
+            document.getElementById('NumOfkids').value = gan.NumOfkids;
+            document.getElementById('price').value = gan.price;
+            document.getElementById('address').value = gan.address;
+            document.getElementById('character').value = gan.character;
+            document.getElementById('maxKids').value = gan.maxKids;
+            document.getElementById('workTime').value = gan.workTime;
+            document.getElementById('vision').value = gan.vision;
+            document.getElementById('principles').value = gan.principles;
+        })
+        .catch(error => {
+            console.error('Error fetching gan data:', error);
+        });
+
+    function editGan(ganId) {
+        window.location.href = `/editGan.html?ganId=${ganId}`;
+    }
+
+    function deleteGan(ganId) {
+        if (confirm('האם אתה בטוח שברצונך למחוק את הגן?')) {
+            fetch(`/gans/${ganId}`, { method: 'DELETE' })
+                .then(response => {
+                    if (response.ok) {
+                        alert('הגן נמחק בהצלחה');
+                        window.location.href = '/ganimlist.html';
+                    } else {
+                        alert('שגיאה במחיקת הגן');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting gan:', error);
+                    alert('שגיאה במחיקת הגן');
+                });
+        }
+    }
 </script>
 
 </html>

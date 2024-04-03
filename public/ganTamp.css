@@ -1,0 +1,997 @@
+:root {
+    --font-varela-round: "Varela Round";
+    --font-secular-one: "Secular One";
+
+    --font-size-xl: 20px;
+    --font-size-base: 16px;
+    --font-size-5xl: 24px;
+    --font-size-lgi: 19px;
+
+
+    --window: #ffe3a2;
+    --window1: #ffa800;
+    --color-black: #000;
+    --color-sienna: #6c3a36;
+    --color-peru: #bd6d2f;
+
+    --gap-17xl: 36px;
+    --gap-26xl: 45px;
+    --gap-12xl: 31px;
+    --gap-137xl: 156px;
+    --gap-0: 0px;
+    --gap-10xs: 3px;
+    --gap-20xl: 39px;
+    --gap-5xs: 8px;
+    --gap-1006xl: 1025px;
+
+
+    --padding-4xl: 23px;
+    --padding-12xs: 1px;
+    --padding-xl: 20px;
+    --padding-7xl: 26px;
+    --padding-11xl: 30px;
+    --padding-15xl: 34px;
+    --padding-10xs: 3px;
+
+    frame-child {
+        height: 122px;
+        width: 1920px;
+        background-color: var(--window);
+        display: none;
+        max-width: 100%;
+    }
+
+    .inner {
+        margin-top: 25px;
+    }
+
+    .div1,
+    .frame-child {
+        position: relative;
+    }
+
+    .login-button,
+    .login-button-wrapper {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+
+    .login-button {
+        height: 19px;
+        flex-direction: row;
+        padding: 0;
+        box-sizing: border-box;
+        z-index: 1;
+    }
+
+    .login-button-wrapper {
+        flex-direction: column;
+        padding: 0 0 var(--padding-10xs);
+    }
+
+    .div2 {
+        position: relative;
+        white-space: nowrap;
+    }
+
+    .home-button {
+        height: 19px;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: flex-end;
+        padding: 0;
+        box-sizing: border-box;
+        z-index: 1;
+    }
+
+    .home-button-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 0 0 var(--padding-10xs);
+    }
+
+    .div3 {
+        margin-bottom: -10px;
+        position: relative;
+    }
+
+    .wrapper {
+        height: 19px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .home-button1 {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding: 0 0 0 var(--padding-12xs);
+        z-index: 1;
+    }
+
+    .home-button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 0 0 var(--padding-10xs);
+    }
+
+    .div4 {
+        position: relative;
+    }
+
+    .home-button-frame,
+    .home-button2 {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        box-sizing: border-box;
+    }
+
+    .home-button2 {
+        height: 19px;
+        flex-direction: row;
+        padding: 0;
+        z-index: 1;
+    }
+
+    .home-button-frame {
+        height: 22px;
+        flex-direction: column;
+        padding: 0 11px 0 0;
+    }
+
+    .h1 {
+        margin: 0;
+        height: 62px;
+        position: relative;
+        font-size: 64px;
+        font-weight: 400;
+        font-family: var(--font-secular-one);
+        color: var(--window1);
+        display: inline-block;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    .frame-parent {
+        width: 557px;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 20px;
+        max-width: 100%;
+        color: var(--color-sienna);
+    }
+
+    .frame-item,
+    .rectangle-parent {
+        background-color: var(--window);
+        box-sizing: border-box;
+        max-width: 100%;
+    }
+
+    .rectangle-parent {
+        align-self: stretch;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 13px var(--padding-xl) 47px 52px;
+        gap: var(--gap-1006xl);
+        text-align: right;
+        font-size: var(--font-size-5xl);
+        color: var(--window1);
+        font-family: var(--font-varela-round);
+    }
+
+    .frame-item {
+        width: 391px;
+        height: 614px;
+        position: relative;
+        border: 2.2px solid var(--window1);
+        display: none;
+
+    }
+
+    .div5 {
+        position: relative;
+        z-index: 1;
+    }
+
+    .container {
+        align-self: stretch;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-end;
+    }
+
+    .p,
+    .p1 {
+        margin: 7.5px;
+    }
+
+    .div6 {
+        align-self: stretch;
+        position: relative;
+        font-size: var(--font-size-xl);
+        font-family: var(--font-varela-round);
+        color: var(--color-black);
+        z-index: 1;
+    }
+
+    .frame-inner,
+    .rectangle-group {
+        background-color: var(--window);
+        border: 2.2px solid var(--window1);
+        box-sizing: border-box;
+        max-width: 100%;
+    }
+
+    .rectangle-group {
+        width: 391px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 8px 0;
+        min-width: 360px;
+        text-align: right;
+        padding-right: 10px;
+        padding-bottom: 465px;
+        padding-top: 10px;
+    }
+
+    .frame-inner {
+        width: 701px;
+        height: 275px;
+        position: relative;
+        display: none;
+    }
+
+    .div7 {
+        position: relative;
+        z-index: 1;
+    }
+
+    .p2,
+    .p3 {
+        margin: 0;
+    }
+
+    .div8 {
+        align-self: stretch;
+        position: relative;
+        font-size: var(--font-size-xl);
+        font-family: var(--font-varela-round);
+        color: var(--color-black);
+        z-index: 1;
+    }
+
+    .rectangle-container,
+    .rectangle-div {
+        background-color: var(--window);
+        border: 2.2px solid var(--window1);
+        box-sizing: border-box;
+        max-width: 100%;
+    }
+
+    .rectangle-container {
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: flex-start;
+        padding: var(--padding-11xl) var(--padding-15xl) 58px;
+        gap: 8px 0;
+    }
+
+    .rectangle-div {
+        width: 701px;
+        height: 300px;
+        position: relative;
+        display: none;
+    }
+
+    .div9 {
+        position: relative;
+        z-index: 1;
+    }
+
+    .li,
+    .li1 {
+        margin-bottom: 0;
+    }
+
+    .ol {
+        margin: 0;
+        font-family: inherit;
+        font-size: inherit;
+        padding-left: 27px;
+    }
+
+    .div10 {
+        align-self: stretch;
+        position: relative;
+        font-size: var(--font-size-xl);
+        font-family: var(--font-varela-round);
+        color: var(--color-black);
+        z-index: 1;
+    }
+
+    .frame-parent1,
+    .frame-parent2,
+    .rectangle-parent1 {
+        display: flex;
+        justify-content: flex-start;
+        max-width: 100%;
+    }
+
+    .rectangle-parent1 {
+        align-self: stretch;
+        background-color: var(--window);
+        border: 2.2px solid var(--window1);
+        box-sizing: border-box;
+        flex-direction: column;
+        align-items: flex-end;
+        padding: var(--padding-11xl) var(--padding-15xl) 59px;
+        gap: 8px 0;
+        margin-top: -30px;
+    }
+
+    .frame-parent1,
+    .frame-parent2 {
+        align-items: flex-start;
+    }
+
+    .frame-parent2 {
+        flex: 1;
+        flex-direction: column;
+        gap: 39px 0;
+        min-width: 456px;
+    }
+
+    .frame-parent1 {
+        align-self: stretch;
+        flex-direction: row;
+        padding: 0 24px;
+        box-sizing: border-box;
+        gap: 0 74px;
+    }
+
+    .component-1-icon {
+        align-self: stretch;
+        height: 584px;
+        position: relative;
+        max-width: 100%;
+        overflow: hidden;
+        flex-shrink: 0;
+        margin-left: 25px;
+        width: 95.5%;
+    }
+
+    .frame-div {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 39px 0;
+        max-width: 100%;
+    }
+
+    .frame-child1 {
+        width: 391px;
+        height: 377px;
+        position: relative;
+        background-color: var(--window);
+        border: 2.2px solid var(--window1);
+        box-sizing: border-box;
+        display: none;
+        max-width: 100%;
+    }
+
+    .span {
+        font-size: var(--font-size-xl);
+        color: var(--color-black);
+    }
+
+    .div11 {
+        height: 29px;
+        position: relative;
+        display: inline-block;
+        z-index: 1;
+    }
+
+    .span1 {
+        font-size: var(--font-size-xl);
+        color: var(--color-black);
+    }
+
+    .div12 {
+        position: relative;
+        z-index: 2;
+    }
+
+    .span2 {
+        font-size: var(--font-size-xl);
+        color: var(--color-black);
+    }
+
+    .div13 {
+        height: 29px;
+        position: relative;
+        display: inline-block;
+        z-index: 3;
+    }
+
+    .span3 {
+        font-size: var(--font-size-xl);
+        color: var(--color-black);
+    }
+
+    .div14 {
+        position: relative;
+        z-index: 4;
+    }
+
+    .span4 {
+        font-size: var(--font-size-xl);
+        color: var(--color-black);
+    }
+
+    .div15 {
+        height: 29px;
+        position: relative;
+        display: inline-block;
+        z-index: 5;
+    }
+
+    .span5 {
+        font-size: var(--font-size-xl);
+        color: var(--color-black);
+    }
+
+    .div16 {
+        height: 29px;
+        position: relative;
+        display: inline-block;
+        z-index: 6;
+    }
+
+    .span6 {
+        font-size: var(--font-size-xl);
+        color: var(--color-black);
+    }
+
+    .div17 {
+        height: 29px;
+        position: relative;
+        display: inline-block;
+        z-index: 7;
+    }
+
+    .span7 {
+        font-size: var(--font-size-xl);
+        color: var(--color-black);
+    }
+
+    .div18 {
+        height: 29px;
+        position: relative;
+        display: inline-block;
+        z-index: 8;
+    }
+
+    .span8 {
+        font-size: var(--font-size-5xl);
+        color: var(--color-sienna);
+    }
+
+    .p4,
+    .p5,
+    .p6 {
+        margin: 0;
+    }
+
+    .div19 {
+        height: 76px;
+        position: relative;
+        display: inline-block;
+        z-index: 9;
+        font-size: var(--font-size-xl);
+        color: var(--color-black);
+    }
+
+    .rectangle-parent2 {
+        align-self: stretch;
+        background-color: var(--window);
+        border: 2.2px solid var(--window1);
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: flex-start;
+        padding: var(--padding-11xl) 35px 39px;
+        max-width: 100%;
+    }
+
+    .frame-child2,
+    .rectangle-icon {
+        align-self: stretch;
+        position: relative;
+    }
+
+    .rectangle-icon {
+        flex: 1;
+        max-width: 100%;
+        overflow: hidden;
+        max-height: 100%;
+        object-fit: cover;
+    }
+
+    .frame-child2 {
+        height: 391px;
+        background-color: var(--window);
+        border: 2.2px solid var(--window1);
+        box-sizing: border-box;
+    }
+
+    .frame-container,
+    .frame-parent3 {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        max-width: 100%;
+    }
+
+    .frame-parent3 {
+        width: 391px;
+        flex-direction: column;
+        gap: 39px 0;
+        color: var(--color-sienna);
+        font-family: var(--font-varela-round);
+    }
+
+    .frame-container {
+        align-self: stretch;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0 50px;
+    }
+
+    .frame-child3,
+    .rectangle-textarea {
+        position: relative;
+        background-color: var(--window);
+        border: 2.2px solid var(--window1);
+        box-sizing: border-box;
+    }
+
+    .rectangle-textarea {
+        height: 384px;
+        width: auto;
+        outline: 0;
+        align-self: stretch;
+    }
+
+    .frame-child3 {
+        width: 1631px;
+        height: 579px;
+        display: none;
+        max-width: 100%;
+    }
+
+    .div20,
+    .lorem-ipsum-dolor {
+        position: relative;
+        z-index: 1;
+    }
+
+    .lorem-ipsum-dolor {
+        align-self: stretch;
+        height: 86px;
+        display: inline-block;
+        flex-shrink: 0;
+    }
+
+    .parent {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: flex-start;
+        gap: 3px 0;
+        min-width: 211px;
+        max-width: 100%;
+    }
+
+    .frame-child4 {
+        height: 92px;
+        width: 92px;
+        position: relative;
+        border-radius: var(--br-27xl);
+        object-fit: cover;
+        z-index: 1;
+    }
+
+    .frame-parent5 {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 0 var(--padding-7xl) 0 0;
+        box-sizing: border-box;
+        gap: 0 10px;
+        min-width: 294px;
+        max-width: 100%;
+    }
+
+    .div21,
+    .lorem-ipsum-dolor1 {
+        position: relative;
+        z-index: 1;
+    }
+
+    .lorem-ipsum-dolor1 {
+        align-self: stretch;
+        height: 86px;
+        display: inline-block;
+        flex-shrink: 0;
+    }
+
+    .group {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: flex-start;
+        gap: 3px 0;
+        min-width: 211px;
+        max-width: 100%;
+    }
+
+    .frame-child5 {
+        height: 92px;
+        width: 92px;
+        position: relative;
+        border-radius: var(--br-27xl);
+        object-fit: cover;
+        z-index: 1;
+    }
+
+    .frame-parent6 {
+        width: 432px;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 0 16px;
+        max-width: 100%;
+    }
+
+    .div22,
+    .lorem-ipsum-dolor2 {
+        position: relative;
+        z-index: 1;
+    }
+
+    .lorem-ipsum-dolor2 {
+        align-self: stretch;
+        height: 86px;
+        display: inline-block;
+        flex-shrink: 0;
+    }
+
+    .parent1 {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: flex-start;
+        gap: 3px 0;
+        min-width: 211px;
+        max-width: 100%;
+    }
+
+    .frame-child6 {
+        height: 92px;
+        width: 92px;
+        position: relative;
+        border-radius: var(--br-27xl);
+        object-fit: cover;
+        z-index: 1;
+    }
+
+    .frame-parent4,
+    .frame-parent7 {
+        width: 426px;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 0 10px;
+        max-width: 100%;
+    }
+
+    .frame-parent4 {
+        width: 1386px;
+        flex-wrap: wrap;
+        gap: 0 38px;
+    }
+
+    .div23 {
+        position: relative;
+        z-index: 1;
+    }
+
+    .frame {
+        width: 315px;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+    }
+
+    .rectangle-parent3,
+    .rectangle-parent4 {
+        align-self: stretch;
+        flex-direction: column;
+        box-sizing: border-box;
+        max-width: 85%;
+    }
+
+    .rectangle-parent4 {
+        background-color: var(--window);
+        border: 2.2px solid var(--window1);
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-start;
+        padding: 98px 46px 188px;
+        gap: 156px 0;
+    }
+
+    .rectangle-parent3 {
+        align-items: flex-start;
+        padding: 0 var(--padding-12xs) 0 var(--padding-xl);
+        gap: 31px 0;
+        font-size: var(--font-size-xl);
+        color: var(--color-black);
+        font-family: var(--font-varela-round);
+    }
+
+    .div,
+    .frame-group,
+    .inner,
+    .rectangle-parent3 {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .frame-group {
+        flex: 1;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 45px 0;
+        max-width: 100%;
+        text-align: right;
+        font-size: var(--font-size-5xl);
+        color: var(--color-peru);
+        font-family: var(--font-secular-one);
+    }
+
+    .div,
+    .inner {
+        box-sizing: border-box;
+    }
+
+    .inner {
+        width: 1678px;
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 0 var(--padding-4xl) 0 0;
+        max-width: 100%;
+    }
+
+    .div {
+        width: 100%;
+        position: relative;
+        background-color: #fff0d9;
+        overflow: hidden;
+        flex-direction: column;
+        align-items: center;
+        padding: 0 0 190px;
+        gap: 36px 0;
+        letter-spacing: normal;
+    }
+
+    @media screen and (max-width: 1200px) {
+        .rectangle-parent {
+            gap: var(--gap-1006xl);
+            padding-left: var(--padding-7xl);
+            box-sizing: border-box;
+        }
+
+        .rectangle-parent4 {
+            gap: 156px 0;
+            padding-left: var(--padding-4xl);
+            padding-right: var(--padding-4xl);
+            box-sizing: border-box;
+        }
+    }
+
+    @media screen and (max-width: 1080px) {
+        .rectangle-group {
+            flex: 1;
+        }
+
+        .frame-parent1 {
+            flex-wrap: wrap;
+        }
+
+        .frame-div {
+            min-width: 100%;
+        }
+    }
+
+    @media screen and (max-width: 750px) {
+        .rectangle-parent {
+            gap: var(--gap-1006xl);
+        }
+
+        .rectangle-group {
+            padding-top: var(--padding-xl);
+            padding-bottom: 180px;
+            box-sizing: border-box;
+            min-width: 100%;
+        }
+
+        .frame-parent2 {
+            gap: 39px 0;
+            min-width: 100%;
+        }
+
+        .frame-parent1 {
+            gap: 0 74px;
+        }
+
+        .frame-div {
+            gap: 39px 0;
+        }
+
+        .frame-container {
+            gap: 0 50px;
+        }
+
+        .frame-parent4 {
+            gap: 0 38px;
+        }
+
+        .rectangle-parent4 {
+            gap: 156px 0;
+            padding-top: 64px;
+            padding-bottom: 122px;
+            box-sizing: border-box;
+        }
+
+        .rectangle-parent3 {
+            gap: 31px 0;
+        }
+
+        .frame-group {
+            gap: 45px 0;
+        }
+
+        .div {
+            gap: 36px 0;
+        }
+    }
+
+    @media screen and (max-width: 450px) {
+        .rectangle-parent {
+            gap: var(--gap-1006xl);
+        }
+
+        .div5 {
+            font-size: var(--font-size-lgi);
+        }
+
+        .div6 {
+            font-size: var(--font-size-base);
+        }
+
+        .div7 {
+            font-size: var(--font-size-lgi);
+        }
+
+        .div8 {
+            font-size: var(--font-size-base);
+        }
+
+        .div9 {
+            font-size: var(--font-size-lgi);
+        }
+
+        .div10 {
+            font-size: var(--font-size-base);
+        }
+
+        .frame-parent1 {
+            gap: 0 74px;
+        }
+
+        .div11,
+        .div12,
+        .div13,
+        .div14,
+        .div15,
+        .div16,
+        .div17,
+        .div18,
+        .div19 {
+            font-size: var(--font-size-base);
+        }
+
+        .rectangle-parent2 {
+            padding-top: var(--padding-xl);
+            padding-bottom: 25px;
+            box-sizing: border-box;
+        }
+
+        .frame-parent3 {
+            gap: 39px 0;
+        }
+
+        .div20,
+        .lorem-ipsum-dolor {
+            font-size: var(--font-size-base);
+        }
+
+        .frame-parent5 {
+            flex-wrap: wrap;
+        }
+
+        .div21,
+        .lorem-ipsum-dolor1 {
+            font-size: var(--font-size-base);
+        }
+
+        .frame-parent6 {
+            flex-wrap: wrap;
+        }
+
+        .div22,
+        .lorem-ipsum-dolor2 {
+            font-size: var(--font-size-base);
+        }
+
+        .frame-parent7 {
+            flex-wrap: wrap;
+        }
+
+        .div23 {
+            font-size: var(--font-size-base);
+        }
+    }
+}
+
+button {
+    font-size: 24px;
+    background-color: #ffa800;
+    border-radius: 5px;
+    border: solid 1px #ffa800;
+    color: aliceblue;
+}

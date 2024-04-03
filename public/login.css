@@ -43,6 +43,7 @@ p {
   border-radius: 5px;
   text-align-last: center;
   text-align: -webkit-center;
+  margin-top: 20px;
 }
 
 .form-group {
