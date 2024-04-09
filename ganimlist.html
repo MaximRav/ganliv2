@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="navibar.css" />
+  <link rel="stylesheet" href="ganimlist.css" />
+
+  <title>Ganim list</title>
+</head>
+
+<body>
+  <header>
+    <bar>
+      <ul>
+        <li><a href="/selfPage" id="selfPageLink">אזור אישי</a></li>
+        <li><a href="/ganimlist.html">גנים</a></li>
+        <li><a href="/aboutPage.html">אודות</a></li>
+        <li><a href="/HomeLog.html">בית</a></li>
+        <li><a href="/HomeLog.html" class="logo">גן-לי</a></li>
+        <li>
+          <a href="/logout" class="login" id="logoutLink">התנתקות</a>
+        </li>
+      </ul>
+    </bar>
+  </header>
+
+  <h1 class="ganListLogo">צעד קטן לאדם וצעד ענק לאנושות</h1>
+
+  <div class="sortList">
+    <div class="sortHader">
+      <h3>:מיון לפי</h3>
+    </div>
+    <ul>
+      <li>
+        <h4>אופי הגן</h4>
+        <ul class="sort1">
+          <li>
+            <input type="radio" id="dati" name="gardenType" value="דתי">
+            <label for="dati">דתי</label>
+          </li>
+          <li>
+            <input type="radio" id="hiloni" name="gardenType" value="חילוני">
+            <label for="hiloni">חילוני</label>
+          </li>
+          <li>
+            <input type="radio" id="mamlachti" name="gardenType" value="ממלכתי">
+            <label for="mamlachti">ממלכתי</label>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <h4>שכונה</h4>
+        <ul class="sort2">
+          <li>
+            <input type="radio" id="neighborhoodA" name="neighborhood" value="שכונה א">
+            <label for="neighborhoodA">שכונה א</label>
+          </li>
+          <li>
+            <input type="radio" id="neighborhoodB" name="neighborhood" value="שכונה ב">
+            <label for="neighborhoodB">שכונה ב</label>
+          </li>
+          <li>
+            <input type="radio" id="neighborhoodC" name="neighborhood" value="שכונה ג">
+            <label for="neighborhoodC">שכונה ג</label>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <h4>דירוג</h4>
+        <ul class="sort3">
+          <li>
+            <input type="radio" id="rating1" name="rating" value="1">
+            <label for="rating1">1 כוכב</label>
+          </li>
+          <li>
+            <input type="radio" id="rating2" name="rating" value="2">
+            <label for="rating2">2 כוכבים</label>
+          </li>
+          <li>
+            <input type="radio" id="rating3" name="rating" value="3">
+            <label for="rating3">3 כוכבים</label>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <table class="ganimList">
+    <tr class="ganimHader">
+      <th>דירוג</th>
+      <th>כתובת</th>
+      <th>אופי הגן</th>
+      <th>שם הגן</th>
+    </tr>
+
+  </table>
+
+  <script>
+    // Fetch the list of approved gans
+    fetch('/gans/approved')
+      .then(response => response.json())
+      .then(data => {
+        const ganimList = document.querySelector('.ganimList');
+        ganimList.innerHTML = ''; // Clear the table
+
+        // Render the initial list of gans
+        renderGanList(data);
+      })
+      .catch(error => {
+        console.error('Error fetching approved gans:', error);
+      });
+
+    // Get all the filter buttons
+    const filterButtons = document.querySelectorAll('.sort1 input[type="radio"], .sort2 input[type="radio"], .sort3 input[type="radio"]');
+
+    // Add event listeners to the filter buttons
+    filterButtons.forEach(button => {
+      button.addEventListener('click', applyFilters);
+    });
+
+    function applyFilters() {
+      // Get the selected filter values
+      const gardenTypeFilter = document.querySelector('input[name="gardenType"]:checked')?.value;
+      const neighborhoodFilter = document.querySelector('input[name="neighborhood"]:checked')?.value;
+      const ratingFilter = document.querySelector('input[name="rating"]:checked')?.value;
+
+      // Fetch the list of approved gans
+      fetch('/gans/approved')
+        .then(response => response.json())
+        .then(data => {
+          const ganimList = document.querySelector('.ganimList');
+          ganimList.innerHTML = ''; // Clear the table
+
+          // Filter the data based on the selected filters
+          const filteredData = data.filter(gan => {
+            return (
+              (!gardenTypeFilter || gan.character === gardenTypeFilter) &&
+              (!neighborhoodFilter || gan.address.includes(neighborhoodFilter)) &&
+              (!ratingFilter || gan.rating === parseInt(ratingFilter))
+            );
+          });
+
+          // Render the filtered list of gans
+          renderGanList(filteredData);
+        })
+        .catch(error => {
+          console.error('Error fetching approved gans:', error);
+        });
+    }
+
+    function renderGanList(gans) {
+      const ganimList = document.querySelector('.ganimList');
+      gans.forEach(gan => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${gan.rating}</td>
+          <td>${gan.address}</td>
+          <td>${gan.character}</td>
+          <td><a href="/gan/${gan._id}">${gan.ganName}</a></td>
+        `;
+        ganimList.appendChild(row);
+      });
+    }
+
+    // Call the applyFilters function when the page loads
+    applyFilters();
+  </script>
+</body>
+
+</html>
