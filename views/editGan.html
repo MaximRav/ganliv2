@@ -67,6 +67,9 @@
         <label for="principles">עקרונות גן</label>
         <textarea id="principles" name="principles" rows="4" required></textarea>
 
+        <label for="notification">הוספת התראה</label>
+        <textarea id="notification" name="notification" rows="4"></textarea>
+
         <input type="submit" value="עדכון">
     </form>
 </body>
@@ -141,6 +144,37 @@
                 });
         }
     }
+
+    const form = document.querySelector('form');
+    const notificationInput = document.getElementById('notification');
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const notificationText = notificationInput.value;
+        formData.append('notification', notificationText);
+
+        try {
+            const response = await fetch('/buildGan', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(Object.fromEntries(formData))
+            });
+
+            if (response.ok) {
+                alert('Gan updated successfully');
+                window.location.href = '/selfPageG.html';
+            } else {
+                alert('Failed to update gan');
+            }
+        } catch (error) {
+            console.error('Error updating gan:', error);
+            alert('Failed to update gan');
+        }
+    });
 </script>
 
 </html>

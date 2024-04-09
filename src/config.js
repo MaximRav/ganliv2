@@ -107,6 +107,10 @@ const GanSchema = new mongoose.Schema({
             text: {
                 type: String,
                 required: true
+            },
+            author: {
+                type: String,
+                required: true
             }
         }
     ]

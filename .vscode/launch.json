@@ -7,8 +7,8 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Open aboutPage.html",
-            "file": "e:\\GanliV2\\views\\aboutPage.html"
+            "name": "Open index.js",
+            "file": "E:\\GanliV2\\src\\index.js"
         }
     ]
 }

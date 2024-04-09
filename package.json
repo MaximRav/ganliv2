@@ -1,10 +1,12 @@
 {
   "dependencies": {
+    "@types/bluebird": "^3.5.42",
     "bcrypt": "^5.1.1",
     "ejs": "^3.1.9",
     "express": "^4.18.3",
     "express-session": "^1.18.0",
-    "mongoose": "^8.2.1"
+    "mongoose": "^8.2.1",
+    "nodemailer": "^6.9.13"
   },
   "name": "ganliv2",
   "version": "1.0.0",
@@ -15,5 +17,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "��#\u0000 \u0000g\u0000a\u0000n\u0000l\u0000i\u0000v\u00002\u0000\r\u0000 \u0000#\u0000 \u0000g\u0000a\u0000n\u0000l\u0000i\u0000v\u00002\u0000\r\u0000 \u0000#\u0000 \u0000g\u0000a\u0000n\u0000l\u0000i\u0000v\u00002\u0000\r\u0000 \u0000"
 }

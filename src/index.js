@@ -5,6 +5,7 @@ const { collection, Gan } = require('./config');
 const fs = require('fs').promises;
 const path = require('path');
 const session = require('express-session');
+const nodemailer = require('nodemailer');
 
 const app = express();
 
@@ -225,6 +226,7 @@ app.put('/profile', async (req, res) => {
 
 app.post('/buildGan', async (req, res) => {
     try {
+        const { notification } = req.body;
         const ganData = {
             ganName: req.body.ganName,
             gordenName: req.body.gordenName,
@@ -237,7 +239,7 @@ app.post('/buildGan', async (req, res) => {
             workTime: req.body.workTime,
             vision: req.body.vision,
             principles: req.body.principles,
-            notifications: []
+            notifications: notification ? [{ text: notification }] : []
         };
 
         let gan;
@@ -287,7 +289,7 @@ app.post('/buildGan', async (req, res) => {
                                             <div class="div5">:התראות מן הגן</div>
                                         </div>
                                         <div class="div6">
-                                            <p class="p"></p>
+                                            <p class="p">${ganData.notifications.map(n => n.text).join('<br>')}</p>
                                         </div>
                                     </div>
                                     <div class="frame-parent2">
@@ -617,62 +619,162 @@ app.get('/gans/:ganId/edit', async (req, res) => {
 app.get('/editGan.html', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'editGan.html'));
 });
-
-app.get('/gans/:ganId/notifications', async (req, res) => {
+app.put('/gans/:ganId/notifications', async (req, res) => {
     try {
         const { ganId } = req.params;
-        const gan = await Gan.findById(ganId);
+        const { notification } = req.body;
 
-        if (!gan) {
-            return res.status(404).json({ error: 'Gan not found' });
-        }
-
-        res.json(gan.notifications);
-    } catch (error) {
-        console.error('Error fetching gan notifications:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
-
-app.post('/gans/:ganId/notifications', async (req, res) => {
-    try {
-        const { ganId } = req.params;
-        const { text } = req.body;
-        console.log('ganId:', ganId);
-        console.log('notification text:', text);
-        const gan = await Gan.findByIdAndUpdate(
+        const updatedGan = await Gan.findByIdAndUpdate(
             ganId,
-            { $push: { notifications: { text } } },
+            { $push: { notifications: { text: notification } } },
             { new: true }
         );
-        if (!gan) {
+
+        if (!updatedGan) {
             return res.status(404).json({ error: 'Gan not found' });
         }
-        res.json({ notifications: gan.notifications });
+
+        res.json(updatedGan);
     } catch (error) {
-        console.error('Error adding notification:', error);
+        console.error('Error updating gan notifications:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
-// Delete a notification for a specific gan
-app.delete('/gans/:ganId/notifications/:notificationId', async (req, res) => {
+app.get('/forgot-password', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'forgot-password.html'));
+});
+
+app.post('/reset-password', async (req, res) => {
     try {
-        const { ganId, notificationId } = req.params;
-        const gan = await Gan.findByIdAndUpdate(
-            ganId,
-            { $pull: { notifications: { _id: notificationId } } },
-            { new: true }
-        );
-        if (!gan) {
-            return res.status(404).json({ error: 'Gan not found' });
+        const { email, newPassword } = req.body;
+
+        // Find the user by email
+        const user = await collection.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
         }
-        res.json({ notifications: gan.notifications });
+
+        // Hash the new password
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+
+        // Update the user's password
+        await collection.updateOne({ email }, { $set: { password: hashedPassword } });
+
+        res.json({ message: 'Password reset successful' });
     } catch (error) {
-        console.error('Error deleting notification:', error);
+        console.error('Error resetting password:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+app.post('/gans/:ganName/review', async (req, res) => {
+    try {
+        const { ganName } = req.params;
+        const { review } = req.body;
+        const author = req.session.userEmail;
+
+        console.log('Received review:', review);
+        console.log('Author:', author);
+        console.log('Gan name:', ganName);
+
+        if (!author) {
+            console.log('Unauthorized: No user email in session');
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        const gan = await Gan.findOne({ ganName });
+
+        if (!gan) {
+            console.log('Gan not found:', ganName);
+            return res.status(404).json({ error: 'Gan not found' });
+        }
+
+        console.log('Gan found:', gan);
+
+        gan.reviews.push({ text: review, author });
+        await gan.save();
+
+        console.log('Review added successfully');
+        res.json(gan);
+    } catch (error) {
+        console.error('Error adding review:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+app.get('/gans/:ganName', async (req, res) => {
+    try {
+        const { ganName } = req.params;
+        const gan = await Gan.findOne({ ganName });
+
+        if (!gan) {
+            console.log('Gan not found:', ganName);
+            return res.status(404).json({ error: 'Gan not found' });
+        }
+
+        console.log('Gan found:', gan);
+        res.json(gan);
+    } catch (error) {
+        console.error('Error fetching gan:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.delete('/gans/:ganName/reviews/:reviewId', async (req, res) => {
+    try {
+        const { ganName, reviewId } = req.params;
+        const userId = req.session.userEmail;
+        const userRole = req.session.userRole;
+
+        console.log('ganName:', ganName);
+        console.log('reviewId:', reviewId);
+        console.log('userId:', userId);
+        console.log('userRole:', userRole);
+
+        if (!ganName || !reviewId) {
+            console.error('Missing required parameters:', { ganName, reviewId });
+            return res.status(400).json({ error: 'Missing required parameters' });
+        }
+
+        const gan = await Gan.findOne({ ganName });
+
+        console.log('Found gan:', gan);
+
+        if (!gan) {
+            console.error('Gan not found:', ganName);
+            return res.status(404).json({ error: 'Gan not found' });
+        }
+
+        const review = gan.reviews.id(reviewId);
+
+        console.log('Found review:', review);
+
+        if (!review) {
+            console.error('Review not found:', reviewId);
+            return res.status(404).json({ error: 'Review not found' });
+        }
+
+        console.log('gan.createdBy:', gan.createdBy);
+
+        if (userRole !== 'admin' && userId !== gan.createdBy) {
+            console.error('Forbidden access attempt:', { userRole, userId, createdBy: gan.createdBy });
+            return res.status(403).json({ error: 'Forbidden' });
+        }
+
+        review.remove();
+        await gan.save();
+
+        console.log('Review deleted successfully');
+
+        res.json({ message: 'Review deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting review:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
