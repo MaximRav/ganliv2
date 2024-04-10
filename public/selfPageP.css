@@ -2,10 +2,13 @@
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #fff8dc;
+    background-color: #FFE3A2;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
+    border-color: black;
+    border-style: solid 1px;
+    margin-top: 20px;
 }
 
 
@@ -22,7 +25,7 @@
     display: block;
     width: 100%;
     padding: 10px;
-    background-color: #4CAF50;
+    background-color: #FFA800;
     color: #fff;
     border: none;
     border-radius: 5px;

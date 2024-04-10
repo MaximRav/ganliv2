@@ -352,11 +352,15 @@ app.post('/buildGan', async (req, res) => {
                         <div class="rectangle-parent3">
                             <div class="rectangle-parent4">
                                 <div class="frame-child3"></div>
-                                <div class="frame-parent4">
-                                    <!-- Reviews section -->
+                                <div class="frame-parent4" id="reviewsContainer">
+                                    <!-- Reviews will be dynamically added here -->
                                 </div>
                                 <div class="frame">
                                     <div class="div23">הוסף ביקורת</div>
+                                    <form id="reviewForm">
+                                        <textarea id="reviewText" rows="4" cols="50"></textarea>
+                                        <button type="submit">שלח</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -386,7 +390,7 @@ app.post('/buildGan', async (req, res) => {
                             // Inject the edit and delete buttons for admin users
                             const adminButtonsContainer = document.createElement('div');
                             adminButtonsContainer.innerHTML = \`
-                            
+
                             \`;
                             document.body.appendChild(adminButtonsContainer);
                         }
@@ -418,6 +422,69 @@ app.post('/buildGan', async (req, res) => {
                             });
                     }
                 }
+
+                function fetchAndDisplayReviews(ganName) {
+                    fetch(\`/gans/\${ganName}\`)
+                        .then(response => response.json())
+                        .then(gan => {
+                            const reviewsContainer = document.getElementById('reviewsContainer');
+                            reviewsContainer.innerHTML = '';
+                            gan.reviews.forEach(review => {
+                                const reviewDiv = document.createElement('div');
+                                reviewDiv.classList.add('review');
+                                const authorSpan = document.createElement('span');
+                                authorSpan.textContent = \`\${review.author}: \`;
+                                reviewDiv.appendChild(authorSpan);
+                                const reviewText = document.createElement('p');
+                                reviewText.textContent = review.text;
+                                reviewDiv.appendChild(reviewText);
+                                reviewsContainer.appendChild(reviewDiv);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching reviews:', error);
+                        });
+                }
+
+                function addReview(ganName) {
+                    const reviewText = document.getElementById('reviewText').value.trim();
+                    if (reviewText) {
+                        fetch(\`/gans/\${ganName}/review\`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ review: reviewText }),
+                            credentials: 'include'
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                return response.json();
+                            } else {
+                                throw new Error('Error adding review');
+                            }
+                        })
+                        .then(updatedGan => {
+                            document.getElementById('reviewText').value = '';
+                            fetchAndDisplayReviews(ganName);
+                        })
+                        .catch(error => {
+                            console.error('Error adding review:', error);
+                            alert('שגיאה בהוספת הביקורת');
+                        });
+                    }
+                }
+
+                // Add event listener to the review form
+                const reviewForm = document.getElementById('reviewForm');
+                reviewForm.addEventListener('submit', event => {
+                    event.preventDefault();
+                    addReview('${ganData.ganName}');
+                });
+
+                // Fetch and display reviews when the page loads
+                fetchAndDisplayReviews('${ganData.ganName}');
+                
             </script>
             </html>
         `;
@@ -502,20 +569,20 @@ app.get('/gan/:ganId', async (req, res) => {
         // Inject the isAdmin and isGorden values into the HTML content
         ganHtmlContent = ganHtmlContent.replace(
             '<!--REPLACE_WITH_ADMIN_GORDEN_STATUS-->',
-            `<script>
+            `<script script script >
                 var isAdmin = ${isAdmin};
-                var isGorden = ${isGorden};
-            </script>`
+        var isGorden = ${isGorden};
+            </script > `
         );
 
         // Inject the edit and delete buttons for admin users
         if (isAdmin) {
             ganHtmlContent = ganHtmlContent.replace(
                 '<!--REPLACE_WITH_ADMIN_BUTTONS-->',
-                `<div class="admin-buttons">
+                `<div div div class="admin-buttons" >
                     <button onclick="editGan('${gan._id}')">עריכת עמוד</button>
                     <button onclick="deleteGan('${gan._id}')">מחיקת גן</button>
-                </div>`
+                </div > `
             );
         }
 
@@ -778,5 +845,5 @@ app.delete('/gans/:ganName/reviews/:reviewId', async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT} `);
 });
